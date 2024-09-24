@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ProjectPRM392</string>
+    <string name="introTitle"><font color="#5b4cbd">Your Shoping</font> Destination \nfor Everything</string>
+    <string name="introSubtitle">Get personalized recommendations\n Enjoys fast, free shipping</string>
+    <string name="signIn">Already have an account?<font color="#5b4cbd"> Sign In</font></string>
+</resources>
