@@ -1,6 +1,9 @@
 package com.example.projectprm392.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +15,7 @@ import com.example.projectprm392.Adapter.SliderAdapter;
 import com.example.projectprm392.Domain.ItemsDomain;
 import com.example.projectprm392.Domain.SliderItems;
 import com.example.projectprm392.Helper.ManagmentCart;
+import com.example.projectprm392.R;
 import com.example.projectprm392.databinding.ActivityDetailBinding;
 
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class DetailActivity extends BaseActivity {
         initBanners();
         initSize();
         initColor();
+        initMoveToReview();
     }
 
     private void initColor() {
@@ -85,4 +90,15 @@ public class DetailActivity extends BaseActivity {
 
         binding.backBtn.setOnClickListener(v -> finish());
     }
+    private void initMoveToReview(){
+        binding.feedbackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this, FeedbackActivity.class);
+                intent.putExtra("object", object);
+                startActivity(intent);
+            }
+        });
+    }
+
 }

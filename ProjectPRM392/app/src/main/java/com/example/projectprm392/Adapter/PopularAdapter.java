@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.projectprm392.Activity.DetailActivity;
 import com.example.projectprm392.Activity.ReviewActivity;
+import com.example.projectprm392.Activity.FeedbackActivity;
 import com.example.projectprm392.Domain.ItemsDomain;
 import com.example.projectprm392.databinding.ViewholderPopularBinding;
 
@@ -63,7 +64,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         // Set OnClickListener for the entire item view
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra("object", items.get(position)); // pass the object if needed
+            intent.putExtra("object", items.get(position)); 
             context.startActivity(intent);
         });
     }

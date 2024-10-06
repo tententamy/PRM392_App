@@ -50,6 +50,21 @@
                     app:layout_constraintEnd_toStartOf="@+id/favBtn"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/share" />
+
+                <ImageView
+                    android:id="@+id/feedbackBtn"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/shareBtn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/circular_button_background"
+                    app:srcCompat="@drawable/feedback"
+                    android:scaleType="centerInside"
+                    android:padding="8dp" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="title"
                     android:textColor="@color/black"
-                    android:textSize="23sp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/pricetxt"

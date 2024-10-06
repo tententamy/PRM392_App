@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectprm392.Adapter.ReviewAdapter;
+import com.example.projectprm392.Domain.ItemsDomain;
 import com.example.projectprm392.Domain.ReviewDomain;
 import com.example.projectprm392.R;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,7 @@ public class ReviewActivity extends AppCompatActivity {
     private ReviewAdapter reviewAdapter;
     private ArrayList<ReviewDomain> reviewList;
     private FirebaseDatabase database;
+    private ItemsDomain object;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,16 @@ public class ReviewActivity extends AppCompatActivity {
         initFirebase();
         initRecyclerView();
 
-        // Assuming you have the productId you want to fetch reviews for
-        String productId = "product001"; // Replace with the actual product ID you want to filter by
-        fetchReviewsByProductId(productId);
+        object = (ItemsDomain) getIntent().getSerializableExtra("object");
+
+        if (object != null) {
+            String title = object.getTitle();
+            Log.d("ReviewActivity", "Received productId: " + title);
+
+            fetchReviewsByProductId(title);
+        } else {
+            Log.e("ReviewActivity", "No item passed in the Intent");
+        }
     }
 
     private void initFirebase() {
@@ -66,34 +75,31 @@ public class ReviewActivity extends AppCompatActivity {
         recyclerView.setAdapter(reviewAdapter);
     }
 
-    private void fetchReviewsByProductId(String productId) {
+    private void fetchReviewsByProductId(String title) {
         DatabaseReference reviewsRef = database.getReference("Feedback"); // Ensure the table name is correct
 
-        // Query to get feedback for the specified productId
-        reviewsRef.orderByChild("productId").equalTo(productId).addListenerForSingleValueEvent(new ValueEventListener() {
+        reviewsRef.orderByChild("title").equalTo(title).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 reviewList.clear(); // Clear existing reviews
 
                 if (snapshot.exists()) {
                     for (DataSnapshot reviewSnapshot : snapshot.getChildren()) {
+//                        TODO: Need to change userid to username
                         String userId = reviewSnapshot.child("userId").getValue(String.class);
                         String comment = reviewSnapshot.child("comment").getValue(String.class);
                         Float ranking = reviewSnapshot.child("ranking").getValue(Float.class);
 
-                        // Log the retrieved data
                         Log.d("ReviewActivity", "UserId: " + userId + ", Comment: " + comment + ", Rating: " + ranking);
 
-                        // Create ReviewDomain object and add it to the list
                         ReviewDomain review = new ReviewDomain(userId, comment, ranking);
                         reviewList.add(review);
                     }
 
-                    // Notify adapter of data change
                     reviewAdapter.notifyDataSetChanged();
                     Log.d("ReviewActivity", "Data fetched successfully. Total reviews: " + reviewList.size());
                 } else {
-                    Log.d("ReviewActivity", "No data found for productId: " + productId);
+                    Log.d("ReviewActivity", "No data found for productId: " + title);
                     Toast.makeText(ReviewActivity.this, "No reviews available for this product.", Toast.LENGTH_SHORT).show();
                 }
             }

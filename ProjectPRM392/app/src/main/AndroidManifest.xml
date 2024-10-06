@@ -43,5 +43,9 @@
         <activity 
             android:name=".Activity.ReviewActivity" 
             android:exported="true" />
+            
+        <activity 
+            android:name=".Activity.FeedbackActivity" 
+            android:exported="true" />
     </application>
 </manifest>
