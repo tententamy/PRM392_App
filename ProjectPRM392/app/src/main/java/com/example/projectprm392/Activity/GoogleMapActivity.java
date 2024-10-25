@@ -30,8 +30,8 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        LatLng location = new LatLng(12.580153, 107.860202);
-        googleMap.addMarker(new MarkerOptions().position(location).title("Maker in nhà Chánh"));
+        LatLng location = new LatLng(10.875215478495136, 106.80065892322826);
+        googleMap.addMarker(new MarkerOptions().position(location).title("Nhà Văn Hóa Sinh Viên"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,12));
     }
 }
