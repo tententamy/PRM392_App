@@ -51,4 +51,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.google.code.gson:gson:2.9.1")
     implementation("com.paypal.android:card-payments:1.1.0")
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 }

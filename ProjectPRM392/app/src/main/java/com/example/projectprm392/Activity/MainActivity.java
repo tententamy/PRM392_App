@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity {
 
     private void bottomNavigation() {
         binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
+        binding.mapBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GoogleMapActivity.class)));
     }
 
     private void initPopular() {

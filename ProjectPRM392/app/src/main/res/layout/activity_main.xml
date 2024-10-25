@@ -219,7 +219,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.25"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/mapBtn">
 
                 <ImageView
                     android:id="@+id/imageView4"
