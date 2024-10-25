@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.projectprm392.Adapter.CartAdapter;
 import com.example.projectprm392.Helper.ChangeNumberItemsListener;
 import com.example.projectprm392.Helper.ManagmentCart;
+import com.example.projectprm392.Helper.GlobalState; // Import for GlobalState
 import com.example.projectprm392.databinding.ActivityCartBinding;
 
 import org.json.JSONObject;
@@ -22,6 +23,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.example.projectprm392.Domain.HistoryDomain;
+import com.example.projectprm392.Domain.ItemsDomain;
 
 public class CartActivity extends BaseActivity {
 
@@ -135,12 +140,12 @@ public class CartActivity extends BaseActivity {
                 + "}"
                 + "}";
 
-        try(OutputStream os = conn.getOutputStream()) {
+        try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
         }
 
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
             StringBuilder response = new StringBuilder();
             String responseLine;
             while ((responseLine = br.readLine()) != null) {
@@ -199,6 +204,9 @@ public class CartActivity extends BaseActivity {
 
                     Log.d("PayPal", "Capture response: " + response.toString());
 
+                    // Add new record to History after successful payment capture
+                    addToHistory(orderId); // Call the updated method
+
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Payment captured successfully!", Toast.LENGTH_LONG).show();
                         managmentCart.clearCart();
@@ -222,6 +230,21 @@ public class CartActivity extends BaseActivity {
                 handlePaymentError("Error capturing payment: " + e.getMessage());
             }
         }).start();
+    }
+
+    private void addToHistory(String orderId) {
+        for (ItemsDomain item : managmentCart.getListCart()) {
+            double pricing = item.getPrice();
+            String productId = item.getTitle();
+            String username = GlobalState.getInstance().getUserEmail();
+
+            HistoryDomain historyEntry = new HistoryDomain(orderId, pricing, productId, username);
+            DatabaseReference historyRef = FirebaseDatabase.getInstance().getReference("History");
+
+            historyRef.child(orderId).setValue(historyEntry)
+                    .addOnSuccessListener(aVoid -> Log.d("History", "History entry added successfully"))
+                    .addOnFailureListener(e -> Log.e("History", "Failed to add history entry: " + e.getMessage()));
+        }
     }
 
     private void handlePaymentError(String errorMessage) {
