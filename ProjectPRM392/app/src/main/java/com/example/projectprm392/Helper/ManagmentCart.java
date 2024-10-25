@@ -3,7 +3,6 @@ package com.example.projectprm392.Helper;
 import android.content.Context;
 import android.widget.Toast;
 
-
 import com.example.projectprm392.Domain.ItemsDomain;
 
 import java.util.ArrayList;
@@ -67,7 +66,9 @@ public class ManagmentCart {
         return fee;
     }
 
-
-
-
+    // Method to clear the cart
+    public void clearCart() {
+        tinyDB.putListObject("CartList", new ArrayList<ItemsDomain>()); // Clear the cart
+        Toast.makeText(context, "Cart cleared", Toast.LENGTH_SHORT).show();
+    }
 }
