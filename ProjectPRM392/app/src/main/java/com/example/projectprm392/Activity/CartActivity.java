@@ -201,7 +201,7 @@ public class CartActivity extends BaseActivity {
 
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Payment captured successfully!", Toast.LENGTH_LONG).show();
-//                        managmentCart.clearCart();
+                        managmentCart.clearCart();
                         calculatorCart();
                         initCartList();
                     });
@@ -223,11 +223,6 @@ public class CartActivity extends BaseActivity {
             }
         }).start();
     }
-    private void navigateToOrderConfirmation() {
-//        Intent intent = new Intent(this, OrderConfirmationActivity.class);
-//        startActivity(intent);
-        finish(); // Close the cart activity
-    }
 
     private void handlePaymentError(String errorMessage) {
         Log.e("PayPal", "Payment error: " + errorMessage);
@@ -238,7 +233,6 @@ public class CartActivity extends BaseActivity {
                 userMessage = userMessage.substring(0, 97) + "...";
             }
             Toast.makeText(this, userMessage, Toast.LENGTH_LONG).show();
-            // Optionally, provide a way for the user to retry the payment
         });
     }
 
